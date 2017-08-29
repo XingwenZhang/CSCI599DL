@@ -17,7 +17,7 @@ def data_handle(filepath, N):
     # The keys of dict are b'batch_label', b'labels', b'data', b'filenames'
     data = data_dict.get(b'data',None)
     labels = data_dict.get(b'labels',None)
-    assert data.all() and labels, "data, labels have something wrong"
+    # assert data.any() and labels, "data, labels have something wrong"
     # Fetch first 1000 images and labels
     data = data[:1000,:]
     labels = labels[:1000]
