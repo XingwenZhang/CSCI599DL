@@ -109,6 +109,7 @@ class TinyNet(object):
         self.net = sequential(
             ########## TODO: ##########
             fc(name='fc1',input_dim=3072, output_dim=500),
+            relu(name='relu1'),
             fc(name='fc2',input_dim=500, output_dim=10)
             ########### END ###########
         )
