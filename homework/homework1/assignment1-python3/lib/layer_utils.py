@@ -32,7 +32,7 @@ class sequential(object):
             layer_cnt += 1
         layer_cnt = 0
 
-    def assign(self, name, val):
+    def assign(self, name, val):  ## Assign the w and b
         # load the given values to the layer by name
         layer_cnt = self.paramName2Indices[name]
         self.layers[layer_cnt].params[name] = val
@@ -216,7 +216,7 @@ class dropout(object):
         # TODO: Implement the forward pass of Dropout                               #
         #############################################################################
         if is_Training: # Only apply this function in the training period
-            dropped = np.random.binomial(1, 1-self.p, feat.shape)
+            dropped = np.random.binomial(1, self.p, feat.shape)
         else:
             dropped = 1
         output = feat * dropped

@@ -38,7 +38,7 @@ class SGDM(Optimizer):
 		self.net = net
 		self.lr = lr
 		self.momentum = momentum
-		self.velocity = {}
+		self.velocity = {k: np.zeros_like(v) for layer in self.net.layers for k, v in layer.params.items()}
 
 	def step(self):
 		#############################################################################
@@ -47,7 +47,10 @@ class SGDM(Optimizer):
 		for layer in self.net.layers:
 			for n in layer.params.keys():
 				dv = layer.grads[n]
-				
+				self.velocity[n] = self.momentum * self.velocity[n] - self.lr * dv
+				layer.params[n] += self.velocity[n]
+				# print(self.velocity[n])
+				# print(layer.params[n])
 		#############################################################################
 		#                             END OF YOUR CODE                              #
 		#############################################################################
@@ -59,13 +62,18 @@ class RMSProp(Optimizer):
 		self.lr = lr
 		self.decay = decay
 		self.eps = eps
-		self.cache = {}  # decaying average of past squared gradients
+		self.cache = {k: np.zeros_like(v) for layer in self.net.layers for k, v in layer.params.items()}  # decaying average of past squared gradients
 
 	def step(self):
 		#############################################################################
 		# TODO: Implement the RMSProp                                               #
 		#############################################################################
-		pass
+		# pass
+		for layer in self.net.layers:
+			for n in layer.params.keys():
+				dv = layer.grads[n]
+				self.cache[n] = self.decay * self.cache[n] + (1-self.decay) * np.power(dv, 2)
+				layer.params[n] -= self.lr * dv / np.sqrt(self.cache[n] + self.eps)
 		#############################################################################
 		#                             END OF YOUR CODE                              #
 		#############################################################################
@@ -77,15 +85,29 @@ class Adam(Optimizer):
 		self.lr = lr
 		self.beta1, self.beta2 = beta1, beta2
 		self.eps = eps
-		self.mt = {}
-		self.vt = {}
+		self.mt = {k: np.zeros_like(v) for layer in self.net.layers for k, v in layer.params.items()}
+		self.vt = {k: np.zeros_like(v) for layer in self.net.layers for k, v in layer.params.items()}
 		self.t = t
 
 	def step(self):
 		#############################################################################
 		# TODO: Implement the Adam                                                  #
 		#############################################################################
-		pass
+		# pass
+		self.t += 1
+		for layer in self.net.layers:
+			for n in layer.params.keys():
+				dv = layer.grads[n]
+				self.mt[n] = self.beta1 * self.mt[n] + (1-self.beta1) * dv
+				self.vt[n] = self.beta2 * self.vt[n] + (1-self.beta2) * np.power(dv, 2)
+
+				# Bias correct
+				mt_bias = self.mt[n] / (1-np.power(self.beta1, self.t))
+				vt_bias = self.vt[n] / (1-np.power(self.beta2, self.t))
+
+				layer.params[n] -= self.lr * mt_bias / (np.sqrt(vt_bias) + self.eps)
+				# print(self.mt[n])
+		
 		#############################################################################
 		#                             END OF YOUR CODE                              #
 		#############################################################################
