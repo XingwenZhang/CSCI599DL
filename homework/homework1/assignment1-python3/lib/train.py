@@ -190,6 +190,10 @@ def train_net(data, model, loss_func, optimizer, batch_size, max_epochs,
         # Main training loop
         for iter in range(iter_start, iter_end):
             data_batch, labels_batch = dataloader.get_batch()
+            # print("data_batch shape")
+            # print(data_batch.shape)
+            # print('label batch shape')
+            # print(labels_batch.shape)
 
             #############################################################################
             # TODO: Update the parameters by a forward pass for the network, a backward #
@@ -222,8 +226,8 @@ def train_net(data, model, loss_func, optimizer, batch_size, max_epochs,
         # TODO: Compute the training accuracy and validation accuracy, store the    #
         # results to train_acc_hist, and val_acc_hist respectively                  #
         #############################################################################
-        train_acc = compute_acc(model, data_train, labels_train)
-        val_acc = compute_acc(model, data_val, labels_val)
+        train_acc = compute_acc(model, data_train, labels_train, batch_size=batch_size)
+        val_acc = compute_acc(model, data_val, labels_val, batch_size=batch_size)
         #############################################################################
         #                             END OF YOUR CODE                              #
         #############################################################################

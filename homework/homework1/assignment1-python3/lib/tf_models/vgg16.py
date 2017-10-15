@@ -12,8 +12,8 @@ class Vgg16(object):
         self.trainable = trainable
         self.num_classes = num_classes
         self.batch_size = batch_size
-        self.inputs = tf.placeholder("float", [self.batch_size, 224, 224, 3])
-        self.labels = tf.placeholder(tf.float32, [self.batch_size, num_classes])
+        self.inputs = tf.placeholder("float", [self.batch_size, 224, 224, 3], name="inputs")
+        self.labels = tf.placeholder(tf.float32, [self.batch_size, num_classes], name="labels")
         self.pretrained = None
 
     def load(self, model_path=None):

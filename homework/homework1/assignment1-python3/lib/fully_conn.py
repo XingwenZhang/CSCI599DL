@@ -108,9 +108,14 @@ class TinyNet(object):
         """ Some comments """
         self.net = sequential(
             ########## TODO: ##########
-            fc(name='fc1',input_dim=3072, output_dim=500),
+            fc(3072, 300, 1e-4,name='fc1'),
+            # dropout(dropout_p, seed=seed),
             relu(name='relu1'),
-            fc(name='fc2',input_dim=500, output_dim=10)
+            fc(300,10, 1e-4, name='fc2')
+            
+            # fc(name='fc1',input_dim=3072, output_dim=500),
+            # relu(name='relu1'),
+            # fc(name='fc2',input_dim=500, output_dim=10)
             ########### END ###########
         )
 
