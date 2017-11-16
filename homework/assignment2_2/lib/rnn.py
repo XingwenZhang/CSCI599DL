@@ -65,16 +65,16 @@ class LanguageModelRNN(object):
 		output = feat
 		if self.preprocess is not None:
 			output = self.preprocess.forward(output)
-			print('outpu1 word embed')
-			print(output.shape)
+			# print('outpu1 word embed')
+			# print(output.shape)
 		if self.rnn is not None:	
 			output = self.rnn.forward(output, h0)
-			print('out2 rnn')
-			print(output.shape)
+			# print('out2 rnn')
+			# print(output.shape)
 		if self.postprocess is not None:
 			output = self.postprocess.forward(output)
-			print('out3')
-			print(output.shape)
+			# print('out3')
+			# print(output.shape)
 		self.gather_params()
 		return output
 

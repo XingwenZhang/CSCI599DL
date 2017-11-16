@@ -15,8 +15,8 @@ class DataLoader(object):
 	def __init__(self, data, labels, batch_size, timesteps):
 		self.data = data
 		self.labels = labels
-		print('data and labels')
-		print(data.shape, labels.shape)
+		# print('data and labels')
+		# print(data.shape, labels.shape)
 		self.batch_size = batch_size
 		self.timesteps = timesteps
 		self.indices = np.asarray(range(data.shape[0]-self.timesteps))
@@ -152,16 +152,16 @@ def train_net(data, model, loss_func, optimizer, timesteps, batch_size, max_epoc
 		pred = np.zeros((1,model.hidden_dim))
 		for iter in xrange(iter_start, iter_end):
 			data_batch, labels_batch = dataloader.get_batch()
-			print('data batch and labels batch')
-			print(data_batch.shape)
-			print(labels_batch.shape)
+			# print('data batch and labels batch')
+			# print(data_batch.shape)
+			# print(labels_batch.shape)
 			# You'll need this
 			mask = np.ones((data_batch.shape[0], data_batch.shape[1]))
-			print('mask')
-			print(mask.shape)
+			# print('mask')
+			# print(mask.shape)
 			h0 = np.zeros((data_batch.shape[0], model.hidden_dim))
-			print('h0')
-			print(h0.shape)
+			# print('h0')
+			# print(h0.shape)
 			pred, loss, dLoss, dX, dh0 = None, None, None, None, None
 			#############################################################################
 			# TODO: Update the parameters by a forward pass for the network, a backward #
@@ -185,7 +185,7 @@ def train_net(data, model, loss_func, optimizer, timesteps, batch_size, max_epoc
 			# labels_batch = labels_batch % pred.shape[2]
 			pred = model.forward(data_batch, h0)
 			loss = loss_func.forward(pred, labels_batch, mask)
-			print('end loss')
+			# print('end loss')
 			dLoss = loss_func.backward()
 			dX, dh0 = model.backward(dLoss)
 			optimizer.step()

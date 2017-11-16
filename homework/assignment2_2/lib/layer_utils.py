@@ -626,7 +626,7 @@ class temporal_softmax_loss(object):
 		self.label = None
 
 	def forward(self, feat, label, mask):
-		print('enter')
+		# print('enter')
 		""" Some comments """
 		loss = None
 		N, T, V = feat.shape
@@ -639,13 +639,13 @@ class temporal_softmax_loss(object):
 
 		probs = np.exp(feat_flat - np.max(feat_flat, axis=1, keepdims=True))
 		probs /= np.sum(probs, axis=1, keepdims=True)
-		print('loss')
-		print('probs')
-		print(probs.shape)
-		print('label_flat')
-		print(label_flat.shape)
-		print('mask flat')
-		print(mask_flat.shape)
+		# print('loss')
+		# print('probs')
+		# print(probs.shape)
+		# print('label_flat')
+		# print(label_flat.shape)
+		# print('mask flat')
+		# print(mask_flat.shape)
 		loss = -np.sum(mask_flat * np.log(probs[np.arange(N * T), label_flat]))
 		if self.dim_average:
 			loss /= N
